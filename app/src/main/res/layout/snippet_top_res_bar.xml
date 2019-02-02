@@ -1,0 +1,57 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/profileToolBar">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/backBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_arrow_back_black_24dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="20sp"
+                    android:text="Reservation"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="4dp"
+                    android:layout_toRightOf="@+id/backBtn"
+                    />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/profileMenu"
+                    android:src="@drawable/ic_done_black_24dp"/>
+
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.Toolbar>
+
+
+
+    </android.support.design.widget.AppBarLayout>
+
+</merge>
