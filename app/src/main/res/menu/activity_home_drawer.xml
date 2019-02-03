@@ -5,11 +5,9 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_reservation"
             android:icon="@drawable/ic_restaurant_black_24dp"
             android:title="Your reservations" />
         <item
-            android:id="@+id/cinema"
             android:icon="@drawable/ic_movie_black_24dp"
             android:title="cinema"/>
         <item
@@ -24,11 +22,9 @@
         android:id="@+id/tools">
         <menu>
             <item
-                android:id="@+id/nav_share"
                 android:icon="@drawable/ic_share_black_24dp"
                 android:title="Share"/>
             <item
-                android:id="@+id/nav_contact_us"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Send" />
         </menu>
