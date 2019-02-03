@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,11 +27,23 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.emargystudio.bohemeav0021.helperClasses.ViewPagerAdapter;
+
 import java.util.Calendar;
 
 public class ReservationActivity extends AppCompatActivity {
 
     private static final String TAG = "ReservationActivity";
+
+    ViewPager viewPager;
+    ViewPagerAdapter adapter;
+
+
+    private String[] images = {
+            "https://media.conforama.fr/Medias/600000/60000/9000/000/00/G_669002_A.jpg",
+            "https://cdn.shopify.com/s/files/1/2660/5106/products/cmiqwlrueowxmjtosgrx_800x.jpg?v=1539054401",
+            "https://cdn.shopify.com/s/files/1/2660/5106/products/wisz8mrpd67l6pss3crw_2b63262e-9b7a-4bbb-8f4f-d2da5d3cc57f_800x.jpg?v=1539039199"
+    };
 
 
 
@@ -40,6 +53,13 @@ public class ReservationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation);
+
+        viewPager = findViewById(R.id.viewPager);
+        adapter = new ViewPagerAdapter(ReservationActivity.this,images);
+        viewPager.setAdapter(adapter);
+
+
+
 
 
 
