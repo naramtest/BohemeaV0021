@@ -5,14 +5,14 @@ public class User {
     private String userName;
     private String userEmail;
     private String userPhoto;
-    private int userPhoneNumer;
+    private int userPhoneNumber;
 
-    public User(int userId, String userName, String userEmail, String userPhoto, int userPhoneNumer) {
+    public User(int userId, String userName, String userEmail, String userPhoto, int userPhoneNumber) {
         this.userId = userId;
         this.userName = userName;
         this.userEmail = userEmail;
         this.userPhoto = userPhoto;
-        this.userPhoneNumer = userPhoneNumer;
+        this.userPhoneNumber = userPhoneNumber;
     }
 
     public int getUserId() {
@@ -47,11 +47,11 @@ public class User {
         this.userPhoto = userPhoto;
     }
 
-    public int getUserPhoneNumer() {
-        return userPhoneNumer;
+    public int getUserPhoneNumber() {
+        return userPhoneNumber;
     }
 
-    public void setUserPhoneNumer(int userPhoneNumer) {
-        this.userPhoneNumer = userPhoneNumer;
+    public void setUserPhoneNumber(int userPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber;
     }
 }

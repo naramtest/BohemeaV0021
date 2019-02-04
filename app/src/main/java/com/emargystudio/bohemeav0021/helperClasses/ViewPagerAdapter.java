@@ -40,7 +40,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         inflater = (LayoutInflater)activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.inflate(R.layout.viewpager_item,container,false);
+        View itemView = inflater.inflate(R.layout.table_item,container,false);
 
         ImageView image;
         image = itemView.findViewById(R.id.tableImage);

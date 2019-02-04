@@ -5,9 +5,12 @@ import android.app.TimePickerDialog;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -27,6 +30,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.emargystudio.bohemeav0021.ViewHolder.TableAdapter;
 import com.emargystudio.bohemeav0021.helperClasses.ViewPagerAdapter;
 
 import java.util.Calendar;
@@ -35,8 +39,11 @@ public class ReservationActivity extends AppCompatActivity {
 
     private static final String TAG = "ReservationActivity";
 
-    ViewPager viewPager;
-    ViewPagerAdapter adapter;
+//    RecyclerView recycler_table;
+//    RecyclerView.LayoutManager layoutManager;
+//    TableAdapter adapter;
+
+    ImageView next;
 
 
     private String[] images = {
@@ -54,12 +61,21 @@ public class ReservationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation);
 
-        viewPager = findViewById(R.id.viewPager);
-        adapter = new ViewPagerAdapter(ReservationActivity.this,images);
-        viewPager.setAdapter(adapter);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.your_placeholder, new DataFragment());
+        ft.commit();
 
 
 
+
+//        recycler_table = (RecyclerView) findViewById(R.id.recycler_table);
+//        recycler_table.setHasFixedSize(true);
+//        layoutManager = new LinearLayoutManager(this);
+//        recycler_table.setLayoutManager(layoutManager);
+//
+//        // specify an adapter (see also next example)
+//        adapter = new TableAdapter(images);
+//        recycler_table.setAdapter(adapter);
 
 
 

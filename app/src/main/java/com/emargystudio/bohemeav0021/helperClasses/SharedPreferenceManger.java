@@ -36,7 +36,7 @@ public class SharedPreferenceManger {
         editor.putString(EMAIL,user.getUserEmail());
         editor.putString(IMAGE,user.getUserPhoto());
         editor.putInt(ID,user.getUserId());
-        editor.putInt(PHONE_NUMBER,user.getUserPhoneNumer());
+        editor.putInt(PHONE_NUMBER,user.getUserPhoneNumber());
         editor.apply();
 
     }
