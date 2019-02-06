@@ -1,81 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".TableFragment">
-
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/profileToolBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/backBtn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="20dp"
-                    android:src="@drawable/ic_back" />
-
-                <ImageView
-                    android:id="@+id/next"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_done"/>
-
-            </RelativeLayout>
-
-
-        </android.support.v7.widget.Toolbar>
-
-
-    </android.support.design.widget.AppBarLayout>
 
 
     <RelativeLayout
         android:id="@+id/textContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/appBar">
+        android:layout_marginTop="16dp">
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:background="@color/black"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/textView"
             android:layout_marginStart="16dp"
-            />
+            android:layout_toLeftOf="@id/textView"
+            android:background="@color/black" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:text="Pick Your Favorite Table"
             android:textColor="@color/colorPrimaryText"
             android:textSize="20sp"
@@ -85,36 +38,32 @@
         <View
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:background="@color/black"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/textView"
             android:layout_marginEnd="16dp"
-            />
+            android:layout_toRightOf="@id/textView"
+            android:background="@color/black" />
 
 
     </RelativeLayout>
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_table"
+        android:id="@+id/recycle_table"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textContainer">
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical">
 
     </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
+        android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:clickable="true"
         android:src="@drawable/ic_done"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_gravity="bottom|end" />
 
-</android.support.constraint.ConstraintLayout>
+
+</android.support.design.widget.CoordinatorLayout>

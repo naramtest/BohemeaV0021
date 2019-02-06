@@ -4,18 +4,21 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.emargystudio.bohemeav0021.InterFace.ItemClickListener;
 import com.emargystudio.bohemeav0021.R;
 
 public class TableViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public ImageView food_table;
+    ImageView table_image;
+    TextView table_text;
     private ItemClickListener itemClickListener;
 
     public TableViewHolder(@NonNull View itemView) {
         super(itemView);
-        food_table = itemView.findViewById(R.id.tableImage);
+        table_image = itemView.findViewById(R.id.table_image);
+        table_text  = itemView.findViewById(R.id.table_number);
         itemView.setOnClickListener(this);
     }
     public void setItemClickListener(ItemClickListener itemClickListener) {

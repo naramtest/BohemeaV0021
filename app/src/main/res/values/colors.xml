@@ -8,5 +8,6 @@
     <color name="grey">#bfbfbf</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="baige">#d6d6c2</color>
     <color name="overlayBackground">#7f333639</color>
 </resources>
