@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ReservationActivity"></activity>
+        <activity android:name=".ReservationMaker.ReservationActivity"></activity>
 
         <meta-data
             android:name="com.parse.SERVER_URL"

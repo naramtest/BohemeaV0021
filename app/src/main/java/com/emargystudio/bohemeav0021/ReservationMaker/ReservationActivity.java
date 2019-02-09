@@ -1,9 +1,12 @@
-package com.emargystudio.bohemeav0021;
+package com.emargystudio.bohemeav0021.ReservationMaker;
 
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
+
+import com.emargystudio.bohemeav0021.R;
+import com.emargystudio.bohemeav0021.ReservationMaker.DataFragment;
 
 public class ReservationActivity extends AppCompatActivity {
 

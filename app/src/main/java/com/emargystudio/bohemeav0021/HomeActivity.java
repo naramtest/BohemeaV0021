@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.emargystudio.bohemeav0021.ReservationMaker.ReservationActivity;
 import com.emargystudio.bohemeav0021.helperClasses.SharedPreferenceManger;
 
 import com.facebook.login.LoginManager;
@@ -91,7 +92,7 @@ public class HomeActivity extends AppCompatActivity
             btnMakeReservation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent reservationIntent = new Intent(HomeActivity.this,ReservationActivity.class);
+                    Intent reservationIntent = new Intent(HomeActivity.this, ReservationActivity.class);
                     startActivity(reservationIntent);
                 }
             });

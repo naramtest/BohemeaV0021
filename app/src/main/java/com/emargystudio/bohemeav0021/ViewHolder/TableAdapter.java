@@ -1,21 +1,29 @@
 package com.emargystudio.bohemeav0021.ViewHolder;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.emargystudio.bohemeav0021.Common.Common;
 import com.emargystudio.bohemeav0021.InterFace.ItemClickListener;
 import com.emargystudio.bohemeav0021.R;
+import com.emargystudio.bohemeav0021.ReservationMaker.DataFragment;
+import com.emargystudio.bohemeav0021.ReservationMaker.ReservationActivity;
+import com.emargystudio.bohemeav0021.ReservationMaker.ReservationSummaryFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -56,7 +64,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableViewHolder> {
         holder.table_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               alertTable(mImages.get(position));
+               alertTable(mImages.get(position),mNames.get(position));
 
             }
         });
@@ -67,22 +75,43 @@ public class TableAdapter extends RecyclerView.Adapter<TableViewHolder> {
         return mImages.size();
     }
 
-    public void alertTable(String imageUrl){
-        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+    public void alertTable(String imageUrl, final String name){
+        final AlertDialog.Builder alert = new AlertDialog.Builder(context);
         LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View alertLayout = li.inflate(R.layout.alert_table, null);
         ImageView table_item_image = alertLayout.findViewById(R.id.table_item_image);
-
+        Button chooseBtn = alertLayout.findViewById(R.id.choose);
+        Button backbtn = alertLayout.findViewById(R.id.back);
 
         // this is set the view from XML inside AlertDialog
         alert.setView(alertLayout);
+        Typeface face = Typeface.createFromAsset(context.getAssets(),"fonts/NABILA.TTF");
         RequestOptions requestOptions = new RequestOptions().placeholder(R.mipmap.ic_launcher);
         Glide.with(context)
                 .load(imageUrl)
                 .apply(requestOptions)
                 .into(table_item_image);
-        AlertDialog dialog = alert.create();
+
+        final AlertDialog dialog = alert.create();
         dialog.show();
+        chooseBtn.setTypeface(face);
+        backbtn.setTypeface(face);
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        chooseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Common.tableNumber = Integer.parseInt(name);
+                dialog.dismiss();
+                FragmentTransaction ft = ((ReservationActivity)context).getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.your_placeholder, new ReservationSummaryFragment());
+                ft.commit();
+            }
+        });
 
 
     }
