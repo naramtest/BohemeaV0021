@@ -1,6 +1,11 @@
 package com.emargystudio.bohemeav0021.Model;
 
-public class Reservation {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
+
+public class Reservation implements Parcelable {
 
     private int res_id;
     private int user_id;
@@ -8,22 +13,50 @@ public class Reservation {
     private int year;
     private int month;
     private int day;
-    private double hours;
+    private double startHour;
     private double end_hour;
     private int chairNumber;
+    private   ArrayList<Integer> tableArray = new ArrayList<>();
+
+    public Reservation() {
+    }
 
 
-    public Reservation(int res_id, int user_id, int table_id, int year, int month, int day, double hours, double end_hour, int chairNumber) {
+    public Reservation(int res_id, int user_id, int table_id, int year, int month, int day, double startHour, double end_hour, int chairNumber) {
         this.res_id = res_id;
         this.user_id = user_id;
         this.table_id = table_id;
         this.year = year;
         this.month = month;
         this.day = day;
-        this.hours = hours;
+        this.startHour = startHour;
         this.end_hour = end_hour;
         this.chairNumber = chairNumber;
     }
+
+    protected Reservation(Parcel in) {
+        res_id = in.readInt();
+        user_id = in.readInt();
+        table_id = in.readInt();
+        year = in.readInt();
+        month = in.readInt();
+        day = in.readInt();
+        startHour = in.readDouble();
+        end_hour = in.readDouble();
+        chairNumber = in.readInt();
+    }
+
+    public static final Creator<Reservation> CREATOR = new Creator<Reservation>() {
+        @Override
+        public Reservation createFromParcel(Parcel in) {
+            return new Reservation(in);
+        }
+
+        @Override
+        public Reservation[] newArray(int size) {
+            return new Reservation[size];
+        }
+    };
 
     public int getRes_id() {
         return res_id;
@@ -73,12 +106,12 @@ public class Reservation {
         this.day = day;
     }
 
-    public double getHours() {
-        return hours;
+    public double getStartHour() {
+        return startHour;
     }
 
-    public void setHours(double hours) {
-        this.hours = hours;
+    public void setStartHour(double startHour) {
+        this.startHour = startHour;
     }
 
     public double getEnd_hour() {
@@ -95,5 +128,31 @@ public class Reservation {
 
     public void setChairNumber(int chairNumber) {
         this.chairNumber = chairNumber;
+    }
+
+    public ArrayList<Integer> getTableArray() {
+        return tableArray;
+    }
+
+    public void setTableArray(ArrayList<Integer> tableArray) {
+        this.tableArray = tableArray;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(res_id);
+        dest.writeInt(user_id);
+        dest.writeInt(table_id);
+        dest.writeInt(year);
+        dest.writeInt(month);
+        dest.writeInt(day);
+        dest.writeDouble(startHour);
+        dest.writeDouble(end_hour);
+        dest.writeInt(chairNumber);
     }
 }

@@ -2,6 +2,7 @@ package com.emargystudio.bohemeav0021.ReservationMaker;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,19 +25,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.emargystudio.bohemeav0021.Common.Common;
+import com.emargystudio.bohemeav0021.Common.CommonReservation;
+import com.emargystudio.bohemeav0021.HomeActivity;
+import com.emargystudio.bohemeav0021.Model.Reservation;
 import com.emargystudio.bohemeav0021.R;
-import com.emargystudio.bohemeav0021.helperClasses.URLS;
-import com.emargystudio.bohemeav0021.helperClasses.VolleyHandler;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
@@ -53,8 +49,11 @@ public class DataFragment extends Fragment {
 
     //var
     int chosenYear,chosenMonth,chosenDay;
-    int chosenHour , chosenMinute;
+    double chosenStartHour , chosenEndHour;
     int chosenChair;
+    Reservation reservation = new Reservation();
+
+    TableFragment tableFragment;
 
     public DataFragment() {
         // Required empty public constructor
@@ -88,6 +87,10 @@ public class DataFragment extends Fragment {
         final int currentDay   = calendar.get(Calendar.DAY_OF_MONTH);
         final int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
         final int currentMinute = calendar.get(Calendar.MINUTE);
+        tableFragment = new TableFragment();
+
+        Log.d(TAG, "year: "+chosenYear);
+
 
 
         //change fonts
@@ -95,27 +98,22 @@ public class DataFragment extends Fragment {
         txtData.setTypeface(face);
 
 
+        //initEditTexts();
+
+
+
+        // listener
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), HomeActivity.class);
+                startActivity(intent);
+            }
+        });
         nextFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (chosenYear == 0 || chosenMonth == 0 || chosenDay == 0) {
-                    dataLayout.setError("Pick a date before");
-
-
-                }else if (chosenHour == 0) {
-
-                    hourLayout.setError("Choose an hour first");
-
-                }else if (chosenChair == 0){
-
-                    chairLayout.setError("Fill this field");
-
-                }else {
-                    reservationQuery();
-                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.your_placeholder, new TableFragment());
-                    ft.commit();
-                }
+               nextFragment();
             }
         });
 
@@ -148,11 +146,38 @@ public class DataFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
 
-                chosenChair = Integer.parseInt(edtChairs.getText().toString());
-                Common.chairNumber = chosenChair;
+                if (!edtChairs.getText().toString().isEmpty()) {
+                    chosenChair = Integer.parseInt(edtChairs.getText().toString());
+                    chairLayout.setErrorEnabled(false);
 
+
+                }
             }
         });
+
+        edtChairs.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                   nextFragment();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+
+        setupReservationModel();
+        Bundle args = new Bundle();
+        args.putParcelable(getString(R.string.reservation_bundle), reservation);
+        outState.putBundle("args",args);
+        Log.d(TAG, "onSaveInstanceState: "+outState.toString());
+        super.onSaveInstanceState(outState);
     }
 
     public void datePicker(int currentYear, int currentMonth, int currentDay){
@@ -165,12 +190,7 @@ public class DataFragment extends Fragment {
                 chosenMonth = month+1;
                 chosenDay = dayOfMonth;
                 edtDate.setText(chosenYear +"-"+chosenMonth+"-"+chosenDay);
-                Common.year = year;
-                Common.month = month+1;
-                Common.day = dayOfMonth;
                 dataLayout.setErrorEnabled(false);
-
-
 
             }
         }, currentYear, currentMonth, currentDay);
@@ -183,11 +203,10 @@ public class DataFragment extends Fragment {
         TimePickerDialog timeDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                chosenHour = hourOfDay;
-                chosenMinute = minute;
-                Common.startHour = formatStartingHour(hourOfDay,minute);
-                Log.d(TAG, "onTimeSet: "+formatStartingHour(hourOfDay,minute));
-                edtHour.setText(chosenHour+":"+chosenMinute);
+                chosenStartHour = formatStartingHour(hourOfDay,minute);
+                edtHour.setText(CommonReservation.changeHourFormat(chosenStartHour));
+                chosenEndHour = chosenStartHour + 2;
+                hourLayout.setErrorEnabled(false);
 
             }
         },currentHour,currentMinute,false);
@@ -195,60 +214,73 @@ public class DataFragment extends Fragment {
     }
 
     public double formatStartingHour(int hour , int minute){
-        String d = "0."+minute;
-        double f = Float.parseFloat(d);
-        double h = hour+f;
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
-        String stringhour = decimalFormat.format(h);
-        return Double.parseDouble(stringhour);
+        double d = minute /100.00;
+        double h = hour+d;
+        return round(h,2);
     }
 
-    public void reservationQuery(){
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLS.reservation_query+Common.year+"&month="+Common.month+"&day="+Common.day,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
 
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-
-                            if(!jsonObject.getBoolean("error")){
-
-                                JSONArray jsonArrayReservation =  jsonObject.getJSONArray("reservations");
-
-                                Log.i("arrayReservation",jsonArrayReservation.toString());
-
-                                for(int i = 0 ; i<jsonArrayReservation.length(); i++){
-                                    JSONObject jsonObjectSingleRes = jsonArrayReservation.getJSONObject(i);
-                                    Log.i("jsonObjectSingleRes",jsonObjectSingleRes.toString());
-
-                                    double startHour = jsonObjectSingleRes.getDouble("hours");
-                                    double endHour   = jsonObjectSingleRes.getDouble("end_hour");
-                                   if (Common.startHour >= startHour && Common.startHour <= endHour){
-                                       Common.tableArray.add(jsonObjectSingleRes.getInt("table_id"));
-                                   }
-                                }
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
 
 
-                            }else{
-                                Toast.makeText(getContext(), "Something want wrong try again later ", Toast.LENGTH_SHORT).show();
-                                Log.d(TAG, "onResponse: " + jsonObject.getString("message"));
-                            }
-                        }catch (JSONException e){
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_LONG).show();
-                    }
-                }
+    public void setupReservationModel(){
 
-        );
+        reservation.setYear(chosenYear);
+        reservation.setMonth(chosenMonth);
+        reservation.setDay(chosenDay);
+        reservation.setStartHour(chosenStartHour);
+        reservation.setEnd_hour(chosenEndHour);
+        reservation.setChairNumber(chosenChair);
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null){
+            Log.d(TAG, "onViewCreated: "+savedInstanceState.toString());
+            Bundle bundle = savedInstanceState.getBundle("args");
+            if (bundle != null) {
+                reservation = bundle.getParcelable(getString(R.string.reservation_bundle));
+                chosenYear = reservation.getYear();
+                chosenMonth = reservation.getMonth();
+                chosenDay = reservation.getDay();
+                chosenStartHour = reservation.getStartHour();
+                chosenEndHour = reservation.getEnd_hour();
+                chosenChair = reservation.getChairNumber();
+            }
+
+        }
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    public void nextFragment(){
+        if (chosenYear == 0 || chosenMonth == 0 || chosenDay == 0) {
+            dataLayout.setError("Pick a date before");
 
 
-        VolleyHandler.getInstance(getContext()).addRequetToQueue(stringRequest);
+        }else if (chosenStartHour == 0 && chosenEndHour == 0 ) {
+
+            hourLayout.setError("Choose an hour first");
+
+        }else if (chosenChair == 0){
+
+            chairLayout.setError("Fill this field");
+
+        }else {
+
+            setupReservationModel();
+            Bundle args = new Bundle();
+            args.putParcelable(getString(R.string.reservation_bundle), reservation);
+            tableFragment.setArguments(args);
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.your_placeholder, tableFragment,"table");
+            ft.addToBackStack("Table");
+            ft.commit();
+        }
     }
 }

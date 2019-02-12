@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.emargystudio.bohemeav0021.InterFace.ItemClickListener;
@@ -14,6 +15,7 @@ public class TableViewHolder extends RecyclerView.ViewHolder implements View.OnC
     ImageView table_image;
     TextView table_text;
     private ItemClickListener itemClickListener;
+    ProgressBar progressBar;
 
     public TableViewHolder(@NonNull View itemView) {
         super(itemView);
