@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -35,6 +37,8 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
+import static com.emargystudio.bohemeav0021.Common.CommonReservation.hideSoftKeyboard;
+
 
 public class DataFragment extends Fragment {
 
@@ -45,6 +49,7 @@ public class DataFragment extends Fragment {
     EditText edtDate , edtHour , edtChairs;
     FloatingActionButton nextFAB;
     TextInputLayout dataLayout,hourLayout,chairLayout;
+    ConstraintLayout constraintLayoutl;
 
 
     //var
@@ -68,6 +73,8 @@ public class DataFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
+
+
         //widget
         backBtn = view.findViewById(R.id.backBtn);
         edtDate = view.findViewById(R.id.edtDate);
@@ -78,7 +85,9 @@ public class DataFragment extends Fragment {
         dataLayout = view.findViewById(R.id.dateLayout);
         hourLayout = view.findViewById(R.id.hourLayout);
         chairLayout = view.findViewById(R.id.chairLayout);
+        constraintLayoutl = view.findViewById(R.id.constraint1);
 
+        setupUI(constraintLayoutl);
 
         //var
         Calendar calendar = Calendar.getInstance();
@@ -282,5 +291,27 @@ public class DataFragment extends Fragment {
             ft.addToBackStack("Table");
             ft.commit();
         }
+    }
+
+    //hide soft keyBoard
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(getActivity());
+                    return false;
+                }
+            });
+        }
+
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+
     }
 }

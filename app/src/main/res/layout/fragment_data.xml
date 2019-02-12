@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/constraint1"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white">
 
@@ -168,6 +169,7 @@
                 android:inputType="number"
                 android:textColor="@color/colorPrimaryText"
                 android:maxLength="2"
+                android:imeOptions="flagNoExtractUi"
                 />
 
         </android.support.design.widget.TextInputLayout>

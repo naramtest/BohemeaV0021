@@ -1,7 +1,9 @@
 package com.emargystudio.bohemeav0021.Common;
 
 
+import android.app.Activity;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -35,6 +37,15 @@ public class CommonReservation {
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+    //hide soft keyBoard
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
     }
 
 

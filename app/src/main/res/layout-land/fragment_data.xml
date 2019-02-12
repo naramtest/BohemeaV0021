@@ -9,6 +9,7 @@
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/constraint1"
     android:background="@color/white">
 
     <android.support.design.widget.AppBarLayout
@@ -186,6 +187,7 @@
                 android:gravity="bottom"
                 android:inputType="number"
                 android:maxLength="2"
+                android:imeOptions="flagNoFullscreen"
                 android:textColor="@color/colorPrimaryText" />
 
         </android.support.design.widget.TextInputLayout>
