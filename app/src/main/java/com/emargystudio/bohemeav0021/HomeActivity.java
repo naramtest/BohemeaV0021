@@ -2,6 +2,8 @@ package com.emargystudio.bohemeav0021;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
 import android.view.View;
@@ -13,12 +15,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.emargystudio.bohemeav0021.ReservationMaker.ReservationActivity;
+import com.emargystudio.bohemeav0021.Orders.OrderFragment;
+import com.emargystudio.bohemeav0021.helperClasses.SectionsPagerAdapter;
 import com.emargystudio.bohemeav0021.helperClasses.SharedPreferenceManger;
 
 import com.facebook.login.LoginManager;
@@ -36,7 +38,8 @@ public class HomeActivity extends AppCompatActivity
     //views
     CircleImageView userPhoto;
     TextView userName;
-    Button btnMakeReservation;
+    private ViewPager mViewPager;
+
 
     //Server Side
     ParseUser user;
@@ -57,11 +60,11 @@ public class HomeActivity extends AppCompatActivity
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 
-            //widget
-            btnMakeReservation = findViewById(R.id.btn_make_reservation);
+
 
             //var
             user = ParseUser.getCurrentUser();
+            mViewPager = (ViewPager) findViewById(R.id.viewpager_container);
 
 
             //menu setup
@@ -87,15 +90,8 @@ public class HomeActivity extends AppCompatActivity
             tools.setTitle(s);
             navigationView.setNavigationItemSelectedListener(this);
 
+            setupViewPager();
 
-            //clickListeners
-            btnMakeReservation.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent reservationIntent = new Intent(HomeActivity.this, ReservationActivity.class);
-                    startActivity(reservationIntent);
-                }
-            });
 
         }
     }
@@ -111,6 +107,22 @@ public class HomeActivity extends AppCompatActivity
         ParseUser.logOut();
         SharedPreferenceManger.getInstance(this).logUserOut();
         Toast.makeText(this, "Good bye .....", Toast.LENGTH_SHORT).show();
+
+    }
+
+
+    private void setupViewPager() {
+
+        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new CinemaFragment()); //index 0
+        adapter.addFragment(new HomeFragment()); //index 1
+        adapter.addFragment(new OrderFragment()); //index 2
+        mViewPager.setAdapter(adapter);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_armchair_silhouette);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_menu_send);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_baseline_calendar_today_24px);
 
     }
 
@@ -175,6 +187,7 @@ public class HomeActivity extends AppCompatActivity
             startActivity(intent);
             finish();
         }
+        mViewPager.setCurrentItem(1);
     }
 
 

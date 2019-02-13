@@ -87,7 +87,7 @@ public class DataFragment extends Fragment {
         chairLayout = view.findViewById(R.id.chairLayout);
         constraintLayoutl = view.findViewById(R.id.constraint1);
 
-        setupUI(constraintLayoutl);
+        //setupUI(constraintLayoutl);
 
         //var
         Calendar calendar = Calendar.getInstance();
@@ -107,7 +107,6 @@ public class DataFragment extends Fragment {
         txtData.setTypeface(face);
 
 
-        //initEditTexts();
 
 
 
@@ -117,6 +116,7 @@ public class DataFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), HomeActivity.class);
                 startActivity(intent);
+
             }
         });
         nextFAB.setOnClickListener(new View.OnClickListener() {
